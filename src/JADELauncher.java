@@ -43,6 +43,15 @@ public class JADELauncher {
 		} catch (StaleProxyException e) {
 			e.printStackTrace();
 		}
+		
+		Object[] agentArgs1 = new Object[0];
+		AgentController ac4;
+		try {
+			ac4 = container.createNewAgent("name2", "jade.core.Agent", agentArgs);
+			ac4.start();
+		} catch (StaleProxyException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

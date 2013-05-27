@@ -1,7 +1,9 @@
 package ontology;
 
-import jade.content.Predicate;
+import jade.content.AgentAction;
 
-public class Sold implements Predicate {
+
+public class Sold implements AgentAction {
+
 	
 }

@@ -21,6 +21,6 @@ public class Good {
 	}
 	
 	public void setResPrice(int price){
-		this.price = price;
+		this.price = this.price - price;
 	}
 }
