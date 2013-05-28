@@ -20,7 +20,7 @@ public class Good {
 		this.name = name;
 	}
 	
-	public void setResPrice(int price){
-		this.price = this.price - price;
+	public void setPrice(int price){
+		this.price = price;
 	}
 }

@@ -2,8 +2,7 @@ package ontology;
 
 import jade.content.AgentAction;
 
-
-public class Sold implements AgentAction {
+public class NewPrice implements AgentAction {
 	private String goodname;
 	private int goodprice;
 	
