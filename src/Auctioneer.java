@@ -4,6 +4,7 @@ import java.util.Vector;
 import ontology.DutchOntology;
 import ontology.Good;
 import ontology.IBuy;
+import ontology.LowPrice;
 import ontology.NewGood;
 import ontology.NewPrice;
 import ontology.Sold;
@@ -40,7 +41,7 @@ public class Auctioneer extends Agent{
 	ArrayList<AMSAgentDescription> agents = null;
 	private AID winner = null;  
 	boolean finnish = false;
-	private Good good; 
+	private Good good;
 	private int dif = 1;
 	boolean stop = false;
 
@@ -125,8 +126,7 @@ public class Auctioneer extends Agent{
 				ACLMessage bid = blockingReceive(5000);
 				if(bid == null) {
 					//actualiza o preço
-					good.setPrice(good.getPrice()-dif);
-					System.out.println("Auctioneer a actualizar o preço para "+good.getPrice());					
+					good.setPrice(good.getPrice()-dif);				
 					//e passa para o próximo estado (que vai ser enviar um NewPrice para os bidders)
 					state = 1;
 
@@ -158,12 +158,18 @@ public class Auctioneer extends Agent{
 				break;
 			}
 			case 1:{ //Novo Preço
-				System.out.println("Novo preço do item: " + good.getName() + "\n Alterado para: "+good.getPrice());
 				if(agents.size() >0)
-					for(int i=0; i<agents.size();i++)
+					if(good.getReserve_price() > good.getPrice()){
+						stop = true;
+						for(int i=0; i<agents.size();i++)
+							//envia com o New Price
+							sendMessage(agents.get(i).getName(), 4);
+					}
+					else{
+						for(int i=0; i<agents.size();i++)
 						//envia com o New Price
-						sendMessage(agents.get(i).getName(), 3);
-
+							sendMessage(agents.get(i).getName(), 3);
+					}
 				ACLMessage bid = blockingReceive(5000);
 				if(bid != null) {
 					/*
@@ -210,6 +216,7 @@ public class Auctioneer extends Agent{
 				NewGood newgood = new NewGood();
 				newgood.setGoodName(good.getName());
 				newgood.setGoodPrice(good.getPrice());
+				newgood.setGoodReservePrice(good.getReserve_price());
 				Action a = new Action(agent, newgood);
 				cm.fillContent(msg, a);
 				System.out.println(getLocalName() + ": MENSAGEM 'Novo Item "+ good.getName() +" por "+
@@ -220,6 +227,7 @@ public class Auctioneer extends Agent{
 				YouWon win = new YouWon();
 				win.setGoodName(good.getName());
 				win.setGoodPrice(good.getPrice());
+				win.setGoodReservePrice(good.getReserve_price());
 				Action a = new Action(agent, win);
 				cm.fillContent(msg, a);
 				System.out.println(getLocalName() + ": MESSAGEM 'Parabéns! Comprou: "+ good.getName() +" por "
@@ -230,6 +238,7 @@ public class Auctioneer extends Agent{
 				Sold sold = new Sold();
 				sold.setGoodName(good.getName());
 				sold.setGoodPrice(good.getPrice());
+				sold.setGoodReservePrice(good.getReserve_price());
 				Action a = new Action(agent, sold); 
 				cm.fillContent(msg, a);
 				System.out.println(getLocalName() + ": MESSAGEM 'Vendido: "+ good.getName() +" por "
@@ -240,10 +249,23 @@ public class Auctioneer extends Agent{
 				NewPrice novo = new NewPrice();
 				novo.setGoodName(good.getName());
 				novo.setGoodPrice(good.getPrice());
+				novo.setGoodReservePrice(good.getReserve_price());
 				Action a = new Action(agent, novo); 
 				cm.fillContent(msg, a);
 				System.out.println(getLocalName() + ": MESSAGEM 'Novo Preço: "+ good.getName() +" por "
 						+ good.getPrice() + "' para " + agent.getLocalName());
+				break;
+			}
+			case 4:{ //Envia mensagem a informar que o item atingiu o  seu reserve price
+				LowPrice low = new LowPrice();
+				low.setGoodName(good.getName());
+				low.setGoodPrice(good.getPrice());
+				low.setGoodReservePrice(good.getReserve_price());
+				Action a = new Action(agent, low); 
+				cm.fillContent(msg, a);
+				System.out.println(getLocalName() + ": MESSAGEM 'Leilão terminado: "+ good.getName() +" não foi solicitado pelo preço " +
+						"mínimo de "
+						+ good.getReserve_price() + "' para " + agent.getLocalName());
 				break;
 			}
 			}

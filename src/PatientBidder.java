@@ -8,20 +8,14 @@ import jade.content.onto.basic.Action;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
-import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 
 import ontology.DutchOntology;
 import ontology.Good;
 import ontology.IBuy;
+import ontology.LowPrice;
 import ontology.NewGood;
 import ontology.NewPrice;
-import ontology.Sold;
 import ontology.YouWon;
 
 public class PatientBidder extends Agent {
@@ -83,6 +77,12 @@ public class PatientBidder extends Agent {
 		  				}
 		  				else if ( action instanceof YouWon) {
 		  					System.out.println(getLocalName() + ": Message 'Ganhei! "+ actual_good.getName() +" por "+ 
+		  							actual_good.getPrice() + "' Enviado para " + msg.getSender().getLocalName());
+		  					stop = true;
+		  					return;
+		  				}
+		  				else if ( action instanceof LowPrice) {
+		  					System.out.println(getLocalName() + ": Message 'Recebi o LowPrice "+ actual_good.getName() +" por "+ 
 		  							actual_good.getPrice() + "' Enviado para " + msg.getSender().getLocalName());
 		  					stop = true;
 		  					return;

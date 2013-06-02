@@ -23,11 +23,11 @@ public class Sold implements AgentAction {
 		this.goodprice = goodprice;
 	}
 
-	public int getGoodreserveprice() {
+	public int getGoodReservePrice() {
 		return goodreserveprice;
 	}
 
-	public void setGoodreserveprice(int goodreserveprice) {
+	public void setGoodReservePrice(int goodreserveprice) {
 		this.goodreserveprice = goodreserveprice;
 	}
 }
