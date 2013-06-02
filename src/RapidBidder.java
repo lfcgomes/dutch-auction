@@ -64,12 +64,15 @@ public class RapidBidder extends Agent {
          				Concept action = ((Action)content).getAction();
          				
 		  				if (action instanceof NewGood){
-		  					initial_good = new Good(((NewGood)action).getGoodName(), ((NewGood)action).getGoodPrice());
-		  					actual_good = new Good(((NewGood)action).getGoodName(), ((NewGood)action).getGoodPrice());
+		  					initial_good = new Good(((NewGood)action).getGoodName(), ((NewGood)action).getGoodPrice(),
+		  							((NewGood)action).getGoodReservePrice());
+		  					actual_good = new Good(((NewGood)action).getGoodName(), ((NewGood)action).getGoodPrice(),
+		  							((NewGood)action).getGoodReservePrice());
 		  					System.out.println(getLocalName() + ": Message 'Recebei novo leilão. "+ actual_good.getName() +" por "+ 
 		  							actual_good.getPrice());
 		  				} else if ( action instanceof NewPrice) {
-		  					actual_good = new Good(((NewPrice)action).getGoodName(), ((NewPrice)action).getGoodPrice());
+		  					actual_good = new Good(((NewPrice)action).getGoodName(), ((NewPrice)action).getGoodPrice(),
+		  							((NewPrice)action).getGoodReservePrice());
 		  					System.out.println(getLocalName() + ": Message 'Recebei novo preço. "+ actual_good.getName() +" por "+ 
 		  							actual_good.getPrice());
 		  				}

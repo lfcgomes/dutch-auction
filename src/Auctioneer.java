@@ -54,7 +54,7 @@ public class Auctioneer extends Agent{
 		addBehaviour(new DutchAuctionBehaviour(this));
 
 		//Item para o leilão
-		good = new Good("airplane-ticket",10);
+		good = new Good("airplane-ticket",10, 6);
 
 
 
