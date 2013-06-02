@@ -24,12 +24,13 @@ import ontology.NewPrice;
 import ontology.Sold;
 import ontology.YouWon;
 
-public class Bidder extends Agent {
+public class PatientBidder extends Agent {
 	
 	AID auctioneer; //Agent-leading
 	Good initial_good;
 	Good actual_good;
-	int max_price = 7;
+	int available_price = 7;
+	int patience = 2;
 	boolean stop = false;
 	
 	
@@ -72,6 +73,10 @@ public class Bidder extends Agent {
 		  					actual_good = new Good(((NewPrice)action).getGoodName(), ((NewPrice)action).getGoodPrice());
 		  					System.out.println(getLocalName() + ": Message 'Recebei novo preço. "+ actual_good.getName() +" por "+ 
 		  							actual_good.getPrice());
+		  					if(actual_good.getPrice() < available_price){
+		  						patience= patience-1;
+		  						System.out.println(getLocalName() + ": Message 'Vou esperar mais "+ patience +" turnos ");
+		  					}
 		  				}
 		  				else if ( action instanceof YouWon) {
 		  					System.out.println(getLocalName() + ": Message 'Ganhei! "+ actual_good.getName() +" por "+ 
@@ -81,7 +86,8 @@ public class Bidder extends Agent {
 		  				}
 		  				//fazer para o caso de alguém o ter comprado
 
-		  				if(actual_good.getPrice() <= max_price){
+		  				if(actual_good.getPrice() <= available_price &&
+		  						patience == 0){
 		  					ACLMessage answermsg = new ACLMessage(ACLMessage.INFORM);
 		  					answermsg.setLanguage(codec.getName());
 		  					answermsg.setOntology(ontology.getName());
