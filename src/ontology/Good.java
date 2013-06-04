@@ -3,13 +3,21 @@ public class Good {
 	private String name;
 	private int price;
 	private int reserve_price;
+	private int qty;
 	
-	public Good(String name, int price, int reserve){
+	public Good(String name, int price, int reserve, int qty){
 		this.name = name;
 		this.price = price;
 		this.reserve_price = reserve;
+		this.qty = qty;
 	}
-	
+	public int getQty()
+	{
+		return qty;
+	}
+	public void setQty(int newqty){
+		this.qty = newqty;
+	}
 	public int getPrice(){
 		return price;
 	}

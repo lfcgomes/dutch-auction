@@ -1,3 +1,8 @@
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+
 import jade.content.Concept;
 import jade.content.ContentElement;
 import jade.content.ContentManager;
@@ -16,7 +21,7 @@ import ontology.IBuy;
 import ontology.LowPrice;
 import ontology.NewGood;
 import ontology.NewPrice;
-import ontology.YouWon;
+import ontology.YouBuy;
 
 public class RapidBidder extends Agent {
 	
@@ -25,6 +30,7 @@ public class RapidBidder extends Agent {
 	Good actual_good;
 	int max_price = 7;
 	boolean stop = false;
+	private int qty;
 	
 	
 	private Codec codec = new SLCodec();
@@ -37,6 +43,32 @@ public class RapidBidder extends Agent {
 		
 		this.getContentManager().registerLanguage(codec);
 		this.getContentManager().registerOntology(ontology);
+		
+		
+		String filename = new String(getLocalName()+".txt");
+		File f = new File(filename);
+		try {
+			FileInputStream fis = new FileInputStream(f);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+			DataInputStream dis = new DataInputStream(bis);
+			String record;
+			int i=0;
+			while ((record=dis.readLine()) != null ) {
+				switch(i){
+					case 0:{max_price = Integer.parseInt(record.substring(record.indexOf('=')+1, record.length()));
+						break;
+					}
+					case 1:{qty = Integer.parseInt(record.substring(record.indexOf('=')+1, record.length()));
+						break;
+					}
+				}
+				i++;
+			}
+		} catch (Exception e) { 
+				e.printStackTrace();
+				System.exit(1);
+		}
+		
 		/*
 		for(int i=0; i <= goodsnumber; i++){
 			System.out.println(getName() + ":" + goods[i].getName() + "=" + goods[i].getPrice());
@@ -59,20 +91,24 @@ public class RapidBidder extends Agent {
          				
 		  				if (action instanceof NewGood){
 		  					initial_good = new Good(((NewGood)action).getGoodName(), ((NewGood)action).getGoodPrice(),
-		  							((NewGood)action).getGoodReservePrice());
+		  							((NewGood)action).getGoodReservePrice(),((NewGood)action).getQty());
 		  					actual_good = new Good(((NewGood)action).getGoodName(), ((NewGood)action).getGoodPrice(),
-		  							((NewGood)action).getGoodReservePrice());
-		  					System.out.println(getLocalName() + ": Message 'Recebei novo leilão. "+ actual_good.getName() +" por "+ 
+		  							((NewGood)action).getGoodReservePrice(),((NewGood)action).getQty());
+		  					System.out.println(getLocalName() + ": Message 'Recebi novo leilão. "+ actual_good.getName() +" por "+ 
 		  							actual_good.getPrice());
+		  					
 		  				} else if ( action instanceof NewPrice) {
 		  					actual_good = new Good(((NewPrice)action).getGoodName(), ((NewPrice)action).getGoodPrice(),
-		  							((NewPrice)action).getGoodReservePrice());
-		  					System.out.println(getLocalName() + ": Message 'Recebei novo preço. "+ actual_good.getName() +" por "+ 
+		  							((NewPrice)action).getGoodReservePrice(),((NewPrice)action).getQty());
+		  					System.out.println(getLocalName() + ": Message 'Recebi novo preço. "+ actual_good.getName() +" por "+ 
 		  							actual_good.getPrice());
 		  				}
-		  				else if ( action instanceof YouWon) {
-		  					System.out.println(getLocalName() + ": Message 'Ganhei! "+ actual_good.getName() +" por "+ 
-		  							actual_good.getPrice() + "' Enviado para " + msg.getSender().getLocalName());
+		  				else if ( action instanceof YouBuy) {
+		  					actual_good = new Good(((YouBuy)action).getGoodName(), ((YouBuy)action).getGoodPrice(),
+		  							((YouBuy)action).getGoodReservePrice(),((YouBuy)action).getQty());
+		  					System.out.println(getLocalName() + ": Message 'Comprei! "+((YouBuy)action).getQty()
+			  							+" unidade(s) de "+ actual_good.getName() +" por "+ 
+			  							actual_good.getPrice() + "' Enviado para " + msg.getSender().getLocalName());
 		  					stop = true;
 		  					return;
 		  				}
@@ -92,6 +128,10 @@ public class RapidBidder extends Agent {
 		  					IBuy buy = new IBuy();
 		  					buy.setGoodName(actual_good.getName());
 		  					buy.setGoodPrice(actual_good.getPrice());
+		  					if(qty <= actual_good.getQty())
+		  						buy.setQty(qty);
+		  					else
+		  						buy.setQty(actual_good.getQty());
 		  					Action a = new Action(msg.getSender(), buy);
 		  					cm.fillContent(answermsg, a);
 		  					answermsg.addReceiver(msg.getSender());
@@ -108,6 +148,7 @@ public class RapidBidder extends Agent {
 		@Override
 		public boolean done(){
 				return stop;
+				
 			}
 		
 	}	

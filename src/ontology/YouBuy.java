@@ -2,10 +2,19 @@ package ontology;
 
 import jade.content.AgentAction;
 
-public class YouWon implements AgentAction {
+public class YouBuy implements AgentAction {
 	private String goodname;
 	private int goodprice;
 	private int goodreserveprice;
+	private int qty;
+	
+	public int getQty()
+	{
+		return qty;
+	}
+	public void setQty(int newqty){
+		this.qty = newqty;
+	}
 	
 	public String getGoodName(){
 		return goodname;
@@ -22,7 +31,7 @@ public class YouWon implements AgentAction {
 		this.goodprice = goodprice;
 	}
 
-	public int getGoodrRservePrice() {
+	public int getGoodReservePrice() {
 		return goodreserveprice;
 	}
 
