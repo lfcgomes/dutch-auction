@@ -143,7 +143,7 @@ public class Auctioneer extends Agent{
 								if(agents.size() >0)
 									//envia para todos os outros a avisar que o item foi vendido
 									for(int i=0; i < agents.size(); i++){
-										if(!agents.get(i).getName().getLocalName().equals(bid.getSender())){
+										if(!agents.get(i).getName().getLocalName().equals(bid.getSender().getLocalName())){
 											sendMessage(agents.get(i).getName(), 2);
 										}
 									}
@@ -178,7 +178,7 @@ public class Auctioneer extends Agent{
 					sendMessage(bid.getSender(), 1);
 					//Envia para os outros a avisar que o Item foi comprado
 					for(int i=0; i < agents.size(); i++){
-						if(!agents.get(i).getName().getLocalName().equals(bid.getSender())){
+						if(!agents.get(i).getName().getLocalName().equals(bid.getSender().getLocalName())){
 							sendMessage(agents.get(i).getName(), 2);
 						}
 						
