@@ -1,0 +1,3 @@
+max_price=4
+qty=2
+patience=2

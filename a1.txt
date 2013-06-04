@@ -1,0 +1,4 @@
+price=10
+reserve_price=6
+qty=15
+diff=1
