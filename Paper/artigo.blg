@@ -1,0 +1,45 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: artigo.aux
+The style file: unsrt-pt.bst
+Database file #1: artigo.bib
+You've used 4 entries,
+            1791 wiz_defined-function locations,
+            466 strings with 3929 characters,
+and the built_in function-call counts, 520 in all, are:
+= -- 40
+> -- 16
+< -- 0
++ -- 8
+- -- 4
+* -- 2
+:= -- 85
+add.period$ -- 12
+call.type$ -- 4
+change.case$ -- 4
+chr.to.int$ -- 0
+cite$ -- 4
+duplicate$ -- 20
+empty$ -- 73
+format.name$ -- 4
+if$ -- 121
+int.to.chr$ -- 0
+int.to.str$ -- 4
+missing$ -- 0
+newline$ -- 23
+num.names$ -- 4
+pop$ -- 20
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 20
+stack$ -- 0
+substring$ -- 0
+swap$ -- 4
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 4
+width$ -- 5
+write$ -- 38

@@ -1,3 +1,3 @@
-max_price=8
-qty=7
+max_price=10
+qty=2
 patience=2

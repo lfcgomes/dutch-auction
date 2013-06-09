@@ -1,0 +1,23 @@
+\begin{thebibliography}{1}
+
+\bibitem{W3C}
+{W3C} {World Wide Web Consortium}.
+\newblock {XML Tutorial}.
+\newblock \url{http://www.w3schools.com/xml/}.
+
+\bibitem{WIKI}
+Wikipedia.
+\newblock {XML, What is it?}
+\newblock \url{http://en.wikipedia.org/wiki/XML}.
+
+\bibitem{gmaps4rails}
+Benjamin Roth.
+\newblock {Google Maps for Rails}.
+\newblock \url{https://github.com/apneadiving/Google-Maps-for-Rails }.
+
+\bibitem{gmapsapi}
+Google.
+\newblock {Google Maps API}.
+\newblock \url{https://developers.google.com/maps/}.
+
+\end{thebibliography}
